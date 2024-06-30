@@ -1,0 +1,15 @@
+{
+  "name": "entertainment-web-app-media-service",
+  "version": "1.0.0",
+  "description": "just returns a data of json",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/entertainment-web-app-media-service/"
+  },
+  "author": "dcubic",
+  "license": "ISC"
+}
