@@ -1,20 +1,19 @@
 import request from "supertest";
-import { Express } from 'express'
 import jwt from "jsonwebtoken";
 import { createApp } from "../../src/app/app";
 import { JWT_SECRET } from "../../src/utils/constants";
 import { randomObjectId } from "../../src/utils/utils";
 import { StatusCode } from "../../src/utils/StatusCode";
+import jsonData from "../../src/data/data.json";
+import { MediaObject } from "../../src/data/MediaData";
 
-// let app: Express;
+const mediaData: MediaObject[] = jsonData as MediaObject[];
+
 const app = createApp();
-beforeAll(() => {
-//   app = createApp();
-});
 
 describe("JWT Authentication", () => {
   it("failure case - JWT is missing", async () => {
-    const response = await request(app).get("/users/:userId/bookmarks");
+    const response = await request(app).get(`/data`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
     expect(response.body).toEqual({ message: "Invalid Credentials" });
@@ -22,7 +21,7 @@ describe("JWT Authentication", () => {
 
   it("failure case - not a valid JWT", async () => {
     const response = await request(app)
-      .get("/users/:userId/bookmarks")
+      .get(`/data`)
       .set("Authorization", `Bearer ASDSADASD`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -38,7 +37,7 @@ describe("JWT Authentication", () => {
     });
 
     const response = await request(app)
-      .get(`/users/${userId}/bookmarks`)
+      .get(`/data`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -55,7 +54,7 @@ describe("JWT Authentication", () => {
     });
 
     const response = await request(app)
-      .get(`/users/${userId}/bookmarks`)
+      .get(`/data`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -82,10 +81,28 @@ describe("JWT Authentication", () => {
     const tamperedToken = `${header}.${tamperedPayload}.${signature}`;
 
     const response = await request(app)
-      .get(`/users/${userId}/bookmarks`)
+      .get(`/data`)
       .set("Authorization", `Bearer ${tamperedToken}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
     expect(response.body).toEqual({ message: "Invalid Credentials" });
+  });
+});
+
+describe("getData", () => {
+  it("success case - only possible case", async () => {
+    const userId = randomObjectId();
+    const email = "pizza@lunch.com";
+
+    const token = jwt.sign({ subject: userId, email: email }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    const response = await request(app)
+      .get(`/data`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(StatusCode.OK);
+    expect(response.body).toEqual(mediaData);
   });
 });

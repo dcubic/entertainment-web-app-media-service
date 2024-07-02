@@ -1,1 +1,1 @@
-export const JWT_SECRET = "NOT-ACTUALLY-SECRET"
+export const JWT_SECRET = "NOT-ACTUALLY-SECRET";

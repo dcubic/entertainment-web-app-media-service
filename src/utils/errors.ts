@@ -1,4 +1,4 @@
-const StatusCode = require("./StatusCode");
+import { StatusCode } from "./StatusCode";
 
 export class ServerError extends Error {
   readonly statusCode: StatusCode;

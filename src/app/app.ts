@@ -3,12 +3,12 @@ import { MediaRouter } from "../routers/MediaRouter";
 import { checkJWTValidity, handleErrors } from "../utils/middleware";
 
 export const createApp = () => {
-    const app = express();
-    const router = new MediaRouter();
+  const app = express();
+  const router = new MediaRouter();
 
-    app.use(checkJWTValidity);
-    app.use("/", router.getRouter);
-    app.use(handleErrors);
-  
-    return app;
-  };
+  app.use(checkJWTValidity);
+  app.use("/", router.getRouter());
+  app.use(handleErrors);
+
+  return app;
+};

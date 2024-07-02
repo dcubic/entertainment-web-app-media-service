@@ -1,5 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import BaseRouter from "./BaseRouter";
+import { StatusCode } from "../utils/StatusCode";
+import jsonData from "../data/data.json";
+import { MediaObject } from "../data/MediaData";
+
+const mediaData: MediaObject[] = jsonData as MediaObject[];
 
 export class MediaRouter extends BaseRouter {
   constructor() {
@@ -11,6 +16,7 @@ export class MediaRouter extends BaseRouter {
   }
 
   private async getData(request: Request, response: Response) {
-
+    console.log("Did I reach the data route?");
+    response.status(StatusCode.OK).json(mediaData);
   }
 }
