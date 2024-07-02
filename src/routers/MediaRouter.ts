@@ -16,7 +16,6 @@ export class MediaRouter extends BaseRouter {
   }
 
   private async getData(request: Request, response: Response) {
-    console.log("Did I reach the data route?");
     response.status(StatusCode.OK).json(mediaData);
   }
 }
