@@ -7,7 +7,7 @@ export const createApp = () => {
   const router = new MediaRouter();
 
   app.use(checkJWTValidity);
-  app.use("/", router.getRouter());
+  app.use("/media", router.getRouter());
   app.use(handleErrors);
 
   return app;

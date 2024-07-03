@@ -13,7 +13,7 @@ const app = createApp();
 
 describe("JWT Authentication", () => {
   it("failure case - JWT is missing", async () => {
-    const response = await request(app).get(`/data`);
+    const response = await request(app).get(`/media/data`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
     expect(response.body).toEqual({ message: "Invalid Credentials" });
@@ -21,7 +21,7 @@ describe("JWT Authentication", () => {
 
   it("failure case - not a valid JWT", async () => {
     const response = await request(app)
-      .get(`/data`)
+      .get(`/media/data`)
       .set("Authorization", `Bearer ASDSADASD`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -37,7 +37,7 @@ describe("JWT Authentication", () => {
     });
 
     const response = await request(app)
-      .get(`/data`)
+      .get(`/media/data`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -54,7 +54,7 @@ describe("JWT Authentication", () => {
     });
 
     const response = await request(app)
-      .get(`/data`)
+      .get(`/media/data`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -81,7 +81,7 @@ describe("JWT Authentication", () => {
     const tamperedToken = `${header}.${tamperedPayload}.${signature}`;
 
     const response = await request(app)
-      .get(`/data`)
+      .get(`/media/data`)
       .set("Authorization", `Bearer ${tamperedToken}`);
 
     expect(response.status).toBe(StatusCode.UNAUTHORIZED);
@@ -99,7 +99,7 @@ describe("getData", () => {
     });
 
     const response = await request(app)
-      .get(`/data`)
+      .get(`/media/data`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(StatusCode.OK);
