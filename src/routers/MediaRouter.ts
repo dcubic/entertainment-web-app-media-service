@@ -12,7 +12,7 @@ export class MediaRouter extends BaseRouter {
   }
 
   protected initializeRoutes() {
-    this.router.get("/data", this.asyncWrapper(this.getData.bind(this)));
+    this.router.get("/", this.asyncWrapper(this.getData.bind(this)));
   }
 
   private async getData(request: Request, response: Response) {
